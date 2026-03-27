@@ -8,7 +8,7 @@ def get_website(url):
     content = response.json()  
     return content
 
-def one_piece_info(name):
+def one_piece_character_info(name):
     url = "https://api.api-onepiece.com/v2/characters/en"
     raw_characters = get_website(url)
 
@@ -48,7 +48,7 @@ def extract_info(character):
 
 def get_character_info():
     name = input("Enter the name of the chracter you want info about: ")
-    character = one_piece_info(name)
+    character = one_piece_character_info(name)
     if character:
         return extract_info(character)
     else:
@@ -61,7 +61,21 @@ def print_info():
         print(value)
 
 def main():
-    print_info()
+    print("What information do you want?\n1. Characters\n2. Swords\n3. Fruits\n4. Episodes")
+    while True:
+        while True:
+            try:
+                option = int(input("Enter the required option: "))
+            except ValueError:
+                print("Enter a number")
+                continue
+            else:
+                break
+        if option in [1,2,3,4]:
+            break
+    
+    if option == 1:
+        print_info()
     
 if __name__ == "__main__":
     main()
