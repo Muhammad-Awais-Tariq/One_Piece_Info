@@ -13,26 +13,26 @@ def one_piece_info(name):
     raw_characters = get_website(url)
 
     for character in raw_characters:
-        chracter_name = character.get("name")
-        if name.lower().title() in chracter_name.lower().title() :
+        character_name = character.get("name")
+        if name.lower().title() in character_name.lower().title() :
                 return character
     
-def print_info(chracter):
-     name = chracter["name"]
+def extract_info(character):
+     name = character.get("name")
      complete_info = []
 
-     for k , v in chracter.items():
+     for k , v in character.items():
         if k not in  ["id","name","crew","fruit"]:
             complete_info.append(f"The {k} of {name} is {v}")
         if k == "crew":
-            crew = chracter["crew"]
+            crew = character.get("crew")
             if crew.get("roman_name"):
                 crew_name = crew.get("roman_name")
             else:
                 crew_name = crew.get("name")
             complete_info.append(f"The {k} of {name} is {crew_name}")
         if k == "fruit":
-            fruit = chracter["fruit"]
+            fruit = character.get("fruit")
             if fruit.get("roman_name"):
                 fruit_name = fruit.get("roman_name")
             else:
@@ -48,17 +48,20 @@ def print_info(chracter):
 
 def get_character_info():
     name = input("Enter the name of the chracter you want info about: ")
-    chracter = one_piece_info(name)
-    if chracter:
-        return print_info(chracter)
+    character = one_piece_info(name)
+    if character:
+        return extract_info(character)
     else:
         return "No chracter found enter a valid name"
 
-def main():
+def print_info():
     info = get_character_info()
-    if info:
-        for value in info:
-            print(value)
 
+    for value in info:
+        print(value)
+
+def main():
+    print_info()
+    
 if __name__ == "__main__":
     main()
