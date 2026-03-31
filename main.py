@@ -8,21 +8,26 @@ def get_website(url):
     content = response.json()  
     return content
 
-def one_piece_info(name , entity_type):
+def one_piece_info(name , entity_type , is_episode = False):
     url = f"https://api.api-onepiece.com/v2/{entity_type}/en"
     raw_info = get_website(url)
-
-    for info in raw_info:
-        entity_name = info.get("name")
-        if name.lower().title() in entity_name.lower().title() :
-                return entity_type ,info
+    if is_episode:
+        for info in raw_info:
+            entity_number = info.get("id")
+            if int(name) == entity_number :
+                    return entity_type ,info    
+    if not is_episode:    
+        for info in raw_info:
+            entity_name = info.get("name")
+            if name.lower().title() in entity_name.lower().title() :
+                    return entity_type ,info
    
     
 def extract_info(entity_type , info):
     name = info.get("name")
     complete_info = []
     for k , v in info.items():
-       if entity_type == "characters":     
+        if entity_type == "characters":     
            if k not in  ["id","name","crew","fruit"]:
                complete_info.append(f"The {k} of {name} is {v}")
            if k == "crew":
@@ -43,7 +48,7 @@ def extract_info(entity_type , info):
                    fruit_image = fruit.get("filename")
                complete_info.append(f"The {k} of {name} is {fruit_name} which is a {fruit_type} fruit\n {fruit_image}")
            
-       if entity_type == "swords":
+        if entity_type == "swords":
            if k in ["description","category","isDestroy"]:
                if v:
                    if k == "description":    
@@ -53,7 +58,7 @@ def extract_info(entity_type , info):
                    if k ==  "isDestroy":
                        complete_info.append(f"{name} is Destroyed")
 
-       if entity_type == "fruits":
+        if entity_type == "fruits":
            if k in ["description","filename","roman_name","type"]:
                if v:
                    if k == "description":
@@ -64,13 +69,21 @@ def extract_info(entity_type , info):
                        complete_info.append(f"The Japanese name of {name} is {v}")
                    if k == "type":
                        complete_info.append(f"The {k} of {name} is {v}")
-                   
+
+        if entity_type == "episodes":
+            if k in ["title","description","release_date","chapter"]:
+                if v:
+                    complete_info.append(f"The {k} of the episode is {v}")      
            
     return complete_info
 
 def get_entity_info(entity):
-    name = input(f"Enter the name of the {entity[:-1]} you want info about: ")
-    entity_type , info = one_piece_info(name,entity)
+    if entity == "episodes":
+        number = input(f"Enter the number of the {entity[:-1]} you want info about: ")
+        entity_type , info = one_piece_info(number,entity,is_episode=True)
+    else:
+        name = input(f"Enter the name of the {entity[:-1]} you want info about: ")
+        entity_type , info = one_piece_info(name,entity)
     if entity:
         return extract_info(entity_type , info)
     else:
@@ -102,6 +115,8 @@ def main():
         print_info("swords")
     if option == 3:
         print_info("fruits")
+    if option == 4:
+        print_info("episodes")
     
 if __name__ == "__main__":
     main()
