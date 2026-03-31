@@ -19,47 +19,54 @@ def one_piece_info(name , entity_type):
    
     
 def extract_info(entity_type , info):
-     name = info.get("name")
-     complete_info = []
-     for k , v in info.items():
-        if entity_type == "characters":     
-            if k not in  ["id","name","crew","fruit"]:
-                complete_info.append(f"The {k} of {name} is {v}")
-            if k == "crew":
-                crew = info.get("crew")
-                if crew.get("roman_name"):
-                    crew_name = crew.get("roman_name")
-                else:
-                    crew_name = crew.get("name")
-                complete_info.append(f"The {k} of {name} is {crew_name}")
-            if k == "fruit":
-                fruit = info.get("fruit")
-                if fruit.get("roman_name"):
-                    fruit_name = fruit.get("roman_name")
-                else:
-                    fruit_name = fruit.get("name")
-                fruit_type = fruit.get("type")
-                if fruit.get("filename"):
-                    fruit_image = fruit.get("filename")
-                else:
-                    fruit_image = "No image found"
-                complete_info.append(f"The {k} of {name} is {fruit_name} which is a {fruit_type} fruit \n {fruit_image}")
-            
-        if entity_type == "swords":
-            if k == "description":
-                if v:
-                    complete_info.append(f"The {k} of {name} is  \n {v}")
-                else:
-                    complete_info.append(f"The {k} of {name} is not avaliable")
-            if k == "category":
-                complete_info.append(f"The {k} of {name} is {v}")
-            if k ==  "isDestroy":
-                if v:
-                    complete_info.append(f"{name} is Destroyed")
-                else:
-                    complete_info.append(f"{name} is not Destroyed")
-                    
-     return complete_info
+    name = info.get("name")
+    complete_info = []
+    for k , v in info.items():
+       if entity_type == "characters":     
+           if k not in  ["id","name","crew","fruit"]:
+               complete_info.append(f"The {k} of {name} is {v}")
+           if k == "crew":
+               crew = info.get("crew")
+               if crew.get("roman_name"):
+                   crew_name = crew.get("roman_name")
+               else:
+                   crew_name = crew.get("name")
+               complete_info.append(f"The {k} of {name} is {crew_name}")
+           if k == "fruit":
+               fruit = info.get("fruit")
+               if fruit.get("roman_name"):
+                   fruit_name = fruit.get("roman_name")
+               else:
+                   fruit_name = fruit.get("name")
+               fruit_type = fruit.get("type")
+               if fruit.get("filename"):
+                   fruit_image = fruit.get("filename")
+               complete_info.append(f"The {k} of {name} is {fruit_name} which is a {fruit_type} fruit\n {fruit_image}")
+           
+       if entity_type == "swords":
+           if k in ["description","category","isDestroy"]:
+               if v:
+                   if k == "description":    
+                       complete_info.append(f"The {k} of {name} is\n {v}")
+                   if k == "category":
+                       complete_info.append(f"The {k} of {name} is {v}")
+                   if k ==  "isDestroy":
+                       complete_info.append(f"{name} is Destroyed")
+
+       if entity_type == "fruits":
+           if k in ["description","filename","roman_name","type"]:
+               if v:
+                   if k == "description":
+                       complete_info.append(f"The {k} of {name} is\n {v}")
+                   if k == "filename":
+                       complete_info.append(f"The image of {name} can be viewed at\n {v}")
+                   if k == "roman_name":
+                       complete_info.append(f"The Japanese name of {name} is {v}")
+                   if k == "type":
+                       complete_info.append(f"The {k} of {name} is {v}")
+                   
+           
+    return complete_info
 
 def get_entity_info(entity):
     name = input(f"Enter the name of the {entity[:-1]} you want info about: ")
@@ -93,6 +100,8 @@ def main():
         print_info("characters")
     if option == 2:
         print_info("swords")
+    if option == 3:
+        print_info("fruits")
     
 if __name__ == "__main__":
     main()
