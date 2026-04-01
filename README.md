@@ -21,9 +21,9 @@ The program prints all relevant information in a readable format directly in the
 
 ## How to Run the Program
 1. Make sure **Python** is installed.
-2. Install the required module:
+2. Install dependencies listed in pyproject.toml using pip:
     ```bash
-   pip install requests
+   pip install .
 3. Run the program using:
    ```bash
    python main.py
