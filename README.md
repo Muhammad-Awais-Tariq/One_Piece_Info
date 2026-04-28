@@ -19,7 +19,7 @@ Run the program and choose a category from the menu:
 
 The program prints all relevant information in a readable format directly in the terminal.
 
-## How to Run the Program
+## Option 1: 
 1. Make sure **Python** is installed.
 2. Install dependencies listed in pyproject.toml using pip:
     ```bash
@@ -27,6 +27,20 @@ The program prints all relevant information in a readable format directly in the
 3. Run the program using:
    ```bash
    python main.py
+   
+### Option 2: Using uv (Optional)
+1. Install **uv** (if not already installed):
+   ```bash
+   pip install uv
+   ```
+2. Sync the project environment:
+   ```bash
+   uv sync
+   ```
+3. Run the program:
+   ```bash
+   uv run main.py
+   ```
 
 ## File Structure
 ```bash
